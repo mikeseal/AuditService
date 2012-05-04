@@ -7,3 +7,12 @@ C:\dev\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterpris
 C:\dev\AuditService\trunk\src\AuditService\AuditService\obj\Debug\ResolveAssemblyReference.cache
 C:\dev\AuditService\trunk\src\AuditService\AuditService\obj\Debug\Silverbear.Enterprise.Audit.dll
 C:\dev\AuditService\trunk\src\AuditService\AuditService\obj\Debug\Silverbear.Enterprise.Audit.pdb
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterprise.Audit.dll
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterprise.Audit.pdb
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterprise.Audit.BusinessRules.dll
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterprise.Audit.Domain.dll
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterprise.Audit.Domain.pdb
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\bin\Silverbear.Enterprise.Audit.BusinessRules.pdb
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\obj\Debug\ResolveAssemblyReference.cache
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\obj\Debug\Silverbear.Enterprise.Audit.dll
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditService\obj\Debug\Silverbear.Enterprise.Audit.pdb

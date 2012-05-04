@@ -3,3 +3,8 @@ C:\dev\AuditService\trunk\src\AuditService\AuditDomainInterface\bin\Debug\Silver
 C:\dev\AuditService\trunk\src\AuditService\AuditDomainInterface\obj\Debug\ResolveAssemblyReference.cache
 C:\dev\AuditService\trunk\src\AuditService\AuditDomainInterface\obj\Debug\Silverbear.Enterprise.Audit.Domain.dll
 C:\dev\AuditService\trunk\src\AuditService\AuditDomainInterface\obj\Debug\Silverbear.Enterprise.Audit.Domain.pdb
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditDomainInterface\bin\Debug\Silverbear.Enterprise.Audit.Domain.dll
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditDomainInterface\bin\Debug\Silverbear.Enterprise.Audit.Domain.pdb
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditDomainInterface\obj\Debug\ResolveAssemblyReference.cache
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditDomainInterface\obj\Debug\Silverbear.Enterprise.Audit.Domain.dll
+C:\dev\Git Test\local\AuditService\AuditService\trunk\src\AuditService\AuditDomainInterface\obj\Debug\Silverbear.Enterprise.Audit.Domain.pdb

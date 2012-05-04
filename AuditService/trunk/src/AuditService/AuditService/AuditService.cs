@@ -26,7 +26,7 @@ namespace Silverbear.Enterprise.Audit
             var ser = new DataContractSerializer(typeof(AuditObject));
             var audit = (AuditObject)ser.ReadObject(NewAuditRecord);
 
-
+            string bla = "this is a test";
 
             try
             {
