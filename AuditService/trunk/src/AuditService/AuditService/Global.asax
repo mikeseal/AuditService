@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="Silverbear.Enterprise.Audit.Global" Language="C#" %>

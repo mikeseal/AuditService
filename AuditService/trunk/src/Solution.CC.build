@@ -1,0 +1,155 @@
+<project name="Cruise.Control.build" xmlns="http://nant.sf.net/nightly/2010-05-12-0.91/nant.xsd" default="run.all">
+
+    <!-- Set the value to the name of your solution, e.g. Silverbear.<Client>.<Solution> -->
+	<property name="solution.name"  value="AuditService" overwrite="false"/>
+
+    <!-- Set the value to the name of the project that is the system entry point, e.g. Console, WebService, WebSite, UI. -->
+    <property name="entrypoint.project"  value="AuditService" overwrite="false"/>
+
+	<property name="ConfigurationList" value="Debug,QA,UAT,Release" overwrite="false"/>
+	<property name="src.dir" value="${project::get-base-directory()}" />
+	<property name="build.dir" value="${directory::get-parent-directory(src.dir)}\build" />
+	<property name="tools.dir" value="${directory::get-parent-directory(src.dir)}\tools" />
+	<property name="CCNetLabel" value="1.0.0.0" overwrite ="false" />
+
+	<target name="run.all" depends="check.properties,prepare,set.build.number,compile,run.unit.tests,do.build,postdist"/>
+
+	<target name="check.properties">
+		<if test="${solution.name=='solution.name' or entrypoint.project=='entrypoint.project'}">
+			<fail message="Either the solution.name or entrypoint.project properties have not been set in the build file"/>
+		</if>
+	</target>
+
+  <target name="set.build.number">
+    <foreach item="File" property="filename">
+      <in>
+        <items basedir="${src.dir}">
+          <include name="**\AssemblyInfo.cs" />
+        </items>
+      </in>
+      <do>
+        <attrib normal="true" file="${filename}"/>
+        <loadfile file="${filename}" property="AssemblyInfo.Contents"/>
+
+        <property name="addversion" value="${not string::contains(AssemblyInfo.Contents, 'AssemblyInformationalVersion')}"/>
+
+        <choose>
+          <when test="${addversion}">
+            <echo file="${filename}" message='${AssemblyInfo.Contents}[assembly: AssemblyInformationalVersion("${CCNetLabel}")]' />
+          </when>
+          <otherwise>
+            <move file="${filename}" tofile="${filename}.orig" overwrite="true"/>
+            <regex
+               pattern='(?&lt;VersionString&gt;\[assembly:\s*AssemblyInformationalVersion\("(\d*\.)*\w*"\)\])'
+               input="${AssemblyInfo.Contents}"/>
+            <move
+               file="${filename}.orig"
+               tofile="${filename}"
+               overwrite="true">
+              <filterchain>
+                <replacestring from="${VersionString}" to='[assembly: AssemblyInformationalVersion("${CCNetLabel}")]'/>
+              </filterchain>
+            </move>
+          </otherwise>
+        </choose>
+      </do>
+    </foreach>
+  </target>
+    
+	<target name="prepare" description="Preparation tasks that only need running once per build.">
+		<mkdir dir="${build.dir}\Coverage" />
+		<mkdir dir="${build.dir}\UnitTests" />
+		<copy todir="${build.dir}\Coverage" file="${tools.dir}\PartCover\xslt\Report By Class.xslt" failonerror="false" />
+
+		<property name="coverage.file" value="${build.dir}\Coverage\Coverage.xml"/>
+
+
+	</target>
+
+	<target name="compile" description="Compiles using the set Configuration">
+		<foreach item="File" property="Solution">
+			<in>
+				<items basedir="${src.dir}">
+					<include name="*.sln"/>
+				</items>
+			</in>
+			<do>
+				<msbuild project="${Solution}" target="rebuild">
+					<arg value="/property:Configuration=Debug" />
+				</msbuild>
+			</do>
+		</foreach>
+	</target>
+
+
+	<target name="do.build">
+		<foreach item="File" property="EntryProjectFile">
+			<in>
+				<items basedir="${src.dir}">
+					<include name="**\${entrypoint.project}.csproj"/>
+				</items>
+			</in>
+			<do>
+				<property name="project.found" value="true"/>
+				<foreach item="String" in="${ConfigurationList}" delim="," property="ConfigToBuild">
+					<msbuild project="${EntryProjectFile}">
+						<property name="Configuration" value="${ConfigToBuild}"/>
+						<property name="OutDir" value="${build.dir}\dist\${ConfigToBuild}\\"/>
+					</msbuild>
+				</foreach>
+			</do>
+		</foreach>
+		<fail if="${not property::exists('project.found')}" message="The entry point project has not been found"/>
+	</target>
+
+	<target name="run.unit.tests">
+		<property name="unit.tests.bin.dir" value="${src.dir}\UnitTests\bin\Debug"/>
+
+		<foreach item="File" property="Assembly">
+			<in>
+				<items basedir="${unit.tests.bin.dir}">
+					<include name="*UnitTests.dll"/>
+				</items>
+			</in>
+			<do>
+				<!-- launch Part Cover passing in the NUnit application and the Unit Tests DLL as a parameter for NUnit-->
+				<exec
+				   program="${tools.dir}\PartCover\PartCover.exe"
+				   workingdir="${unit.tests.bin.dir}"
+				   output="${build.dir}\PartCoverTestRun.log">
+					<arg value="--register" />
+					<arg value="--output &quot;${coverage.file}&quot;" />
+					<arg value="--target &quot;${tools.dir}\NUnit\nunit-console-x86.exe&quot;" />
+					<arg value="--target-work-dir &quot;${unit.tests.bin.dir}&quot;" />
+					<arg value="--include &quot;[*${solution.name}*]*&quot;" />
+					<arg value="--target-args &quot;\&quot;${Assembly}\&quot; /xml:\&quot;${build.dir}\UnitTests\UnitTests.xml\&quot; /nologo&quot;" />
+				</exec>
+
+				<echo message="Updating the xml coverage report to include xslt reference"/>
+
+				<!-- Update the xml coverage report to include xslt reference -->
+				<loadfile
+					file="${coverage.file}"
+					property="newxmlwithxslt">
+					<filterchain>
+						<replacestring from="&lt;PartCoverReport" to="&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;Report By Class.xslt&quot;?&gt;&lt;PartCoverReport" ignorecase="true"  />
+					</filterchain>
+				</loadfile>
+
+				<echo file="${coverage.file}" message="${newxmlwithxslt}" />
+
+				<!-- Check to see if unit tests failed -->
+				<loadfile property="PartCoverOutput" file="${build.dir}\PartCoverTestRun.log"/>
+				<fail message="Unit tests failed." unless="${string::contains(PartCoverOutput, 'Failures: 0')}"/>
+			</do>
+		</foreach>
+	</target>
+
+  <target name="postdist" description="run any post distribution tidy-up scripts">
+    <foreach item="String" in="${ConfigurationList}" delim="," property="ConfigToBuild">
+      <copy file="AuditService\AuditService\ConfigFiles\web.${ConfigToBuild}.config"
+              tofile="${build.dir}\dist\${ConfigToBuild}\_PublishedWebsites\AuditService\web.config" />
+    </foreach>
+  </target>
+</project>
+

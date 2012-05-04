@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AuditModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="AuditEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Attribute" EntityType="AuditModel.Attribute" />
+    <EntitySet Name="Entity" EntityType="AuditModel.Entity" />
+    <EntitySet Name="Organisation" EntityType="AuditModel.Organisation" />
+    <EntitySet Name="Tag" EntityType="AuditModel.Tag" />
+    <AssociationSet Name="FK_EntityEntityAttribute" Association="AuditModel.FK_EntityEntityAttribute">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="Attribute" EntitySet="Attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganisationEntity" Association="AuditModel.FK_OrganisationEntity">
+      <End Role="Organisation" EntitySet="Organisation" />
+      <End Role="Entity" EntitySet="Entity" />
+    </AssociationSet>
+    <AssociationSet Name="EntityTag" Association="AuditModel.EntityTag">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="Tag" EntitySet="Tag" />
+    </AssociationSet>
+    <EntitySet Name="AuditLevel" EntityType="AuditModel.AuditLevel" />
+    <AssociationSet Name="FK_AuditLevelAudit" Association="AuditModel.FK_AuditLevelAudit">
+      <End Role="AuditLevel" EntitySet="AuditLevel" />
+      <End Role="Audit" EntitySet="Entity" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Attribute">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Key" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" />
+    <Property Type="DateTime" Name="DateUpdated" Nullable="true" />
+    <Property Type="DateTime" Name="DateDeleted" Nullable="true" />
+    <NavigationProperty Name="Entity" Relationship="AuditModel.FK_EntityEntityAttribute" FromRole="Attribute" ToRole="Entity" />
+  </EntityType>
+  <EntityType Name="BinaryAttribute" BaseType="AuditModel.Attribute">
+    <Property Type="Binary" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="FileAttribute" BaseType="AuditModel.BinaryAttribute">
+    <Property Type="String" Name="Extension" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="FileName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="StringAttribute" BaseType="AuditModel.Attribute">
+    <Property Type="String" Name="Value" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Entity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" />
+    <Property Type="DateTime" Name="DateDeleted" Nullable="true" />
+    <NavigationProperty Name="Attribute" Relationship="AuditModel.FK_EntityEntityAttribute" FromRole="Entity" ToRole="Attribute" />
+    <NavigationProperty Name="Organisation" Relationship="AuditModel.FK_OrganisationEntity" FromRole="Entity" ToRole="Organisation" />
+    <NavigationProperty Name="Tag" Relationship="AuditModel.EntityTag" FromRole="Entity" ToRole="Tag" />
+  </EntityType>
+  <EntityType Name="Organisation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="OrganisationName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" />
+    <Property Type="DateTime" Name="DateUpdated" Nullable="true" />
+    <Property Type="DateTime" Name="DateDeleted" Nullable="true" />
+    <NavigationProperty Name="Entity" Relationship="AuditModel.FK_OrganisationEntity" FromRole="Organisation" ToRole="Entity" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TagName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" />
+    <Property Type="DateTime" Name="DateUpdated" Nullable="true" />
+    <Property Type="DateTime" Name="DateDeleted" Nullable="true" />
+    <NavigationProperty Name="Entity" Relationship="AuditModel.EntityTag" FromRole="Tag" ToRole="Entity" />
+  </EntityType>
+  <Association Name="FK_EntityEntityAttribute">
+    <End Type="AuditModel.Entity" Role="Entity" Multiplicity="1" />
+    <End Type="AuditModel.Attribute" Role="Attribute" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_OrganisationEntity">
+    <End Type="AuditModel.Organisation" Role="Organisation" Multiplicity="1" />
+    <End Type="AuditModel.Entity" Role="Entity" Multiplicity="*" />
+  </Association>
+  <Association Name="EntityTag">
+    <End Type="AuditModel.Entity" Role="Entity" Multiplicity="*" />
+    <End Type="AuditModel.Tag" Role="Tag" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Audit" BaseType="AuditModel.Entity">
+    <Property Type="String" Name="Application" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
+    <NavigationProperty Name="AuditLevel" Relationship="AuditModel.FK_AuditLevelAudit" FromRole="Audit" ToRole="AuditLevel" />
+  </EntityType>
+  <EntityType Name="AuditLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="Level" Nullable="false" />
+    <NavigationProperty Name="Entity_Audit" Relationship="AuditModel.FK_AuditLevelAudit" FromRole="AuditLevel" ToRole="Audit" />
+  </EntityType>
+  <Association Name="FK_AuditLevelAudit">
+    <End Type="AuditModel.AuditLevel" Role="AuditLevel" Multiplicity="1" />
+    <End Type="AuditModel.Audit" Role="Audit" Multiplicity="*" />
+  </Association>
+</Schema>

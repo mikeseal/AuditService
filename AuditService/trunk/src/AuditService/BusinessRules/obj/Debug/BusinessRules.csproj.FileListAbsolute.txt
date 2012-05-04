@@ -1,0 +1,8 @@
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\bin\Debug\Silverbear.Enterprise.Audit.BusinessRules.dll.config
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\bin\Debug\Silverbear.Enterprise.Audit.BusinessRules.dll
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\bin\Debug\Silverbear.Enterprise.Audit.BusinessRules.pdb
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\bin\Debug\Silverbear.Enterprise.Audit.Domain.dll
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\bin\Debug\Silverbear.Enterprise.Audit.Domain.pdb
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\obj\Debug\ResolveAssemblyReference.cache
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\obj\Debug\Silverbear.Enterprise.Audit.BusinessRules.dll
+C:\dev\AuditService\trunk\src\AuditService\BusinessRules\obj\Debug\Silverbear.Enterprise.Audit.BusinessRules.pdb

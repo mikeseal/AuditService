@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AuditModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="AuditModelStoreContainer">
+    <EntitySet Name="Attribute" EntityType="AuditModel.Store.Attribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Entity" EntityType="AuditModel.Store.Entity" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Organisation" EntityType="AuditModel.Store.Organisation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tag" EntityType="AuditModel.Store.Tag" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AuditLevel" EntityType="AuditModel.Store.AuditLevel" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Entity_Audit" EntityType="AuditModel.Store.Entity_Audit" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attribute_BinaryAttribute" EntityType="AuditModel.Store.Attribute_BinaryAttribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attribute_FileAttribute" EntityType="AuditModel.Store.Attribute_FileAttribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attribute_StringAttribute" EntityType="AuditModel.Store.Attribute_StringAttribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EntityTag" EntityType="AuditModel.Store.EntityTag" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_EntityEntityAttribute" Association="AuditModel.Store.FK_EntityEntityAttribute">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="Attribute" EntitySet="Attribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrganisationEntity" Association="AuditModel.Store.FK_OrganisationEntity">
+      <End Role="Organisation" EntitySet="Organisation" />
+      <End Role="Entity" EntitySet="Entity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntityTag_Entity" Association="AuditModel.Store.FK_EntityTag_Entity">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="EntityTag" EntitySet="EntityTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntityTag_Tag" Association="AuditModel.Store.FK_EntityTag_Tag">
+      <End Role="Tag" EntitySet="Tag" />
+      <End Role="EntityTag" EntitySet="EntityTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AuditLevelAudit" Association="AuditModel.Store.FK_AuditLevelAudit">
+      <End Role="AuditLevel" EntitySet="AuditLevel" />
+      <End Role="Audit" EntitySet="Entity_Audit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Audit_inherits_Entity" Association="AuditModel.Store.FK_Audit_inherits_Entity">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="Audit" EntitySet="Entity_Audit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BinaryAttribute_inherits_Attribute" Association="AuditModel.Store.FK_BinaryAttribute_inherits_Attribute">
+      <End Role="Attribute" EntitySet="Attribute" />
+      <End Role="BinaryAttribute" EntitySet="Attribute_BinaryAttribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileAttribute_inherits_BinaryAttribute" Association="AuditModel.Store.FK_FileAttribute_inherits_BinaryAttribute">
+      <End Role="BinaryAttribute" EntitySet="Attribute_BinaryAttribute" />
+      <End Role="FileAttribute" EntitySet="Attribute_FileAttribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StringAttribute_inherits_Attribute" Association="AuditModel.Store.FK_StringAttribute_inherits_Attribute">
+      <End Role="Attribute" EntitySet="Attribute" />
+      <End Role="StringAttribute" EntitySet="Attribute_StringAttribute" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Attribute">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateUpdated" Type="datetime" Nullable="true" />
+    <Property Name="DateDeleted" Type="datetime" Nullable="true" />
+    <Property Name="Entity_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Entity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateDeleted" Type="datetime" Nullable="true" />
+    <Property Name="Organisation_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Organisation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrganisationName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateUpdated" Type="datetime" Nullable="true" />
+    <Property Name="DateDeleted" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TagName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="DateUpdated" Type="datetime" Nullable="true" />
+    <Property Name="DateDeleted" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AuditLevel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Level" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Entity_Audit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Application" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="AuditLevel_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attribute_BinaryAttribute">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Value" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attribute_FileAttribute">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Extension" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attribute_StringAttribute">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EntityTag">
+    <Key>
+      <PropertyRef Name="Entity_Id" />
+      <PropertyRef Name="Tag_Id" />
+    </Key>
+    <Property Name="Entity_Id" Type="int" Nullable="false" />
+    <Property Name="Tag_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_EntityEntityAttribute">
+    <End Role="Entity" Type="AuditModel.Store.Entity" Multiplicity="1" />
+    <End Role="Attribute" Type="AuditModel.Store.Attribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attribute">
+        <PropertyRef Name="Entity_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrganisationEntity">
+    <End Role="Organisation" Type="AuditModel.Store.Organisation" Multiplicity="1" />
+    <End Role="Entity" Type="AuditModel.Store.Entity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Entity">
+        <PropertyRef Name="Organisation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AuditLevelAudit">
+    <End Role="AuditLevel" Type="AuditModel.Store.AuditLevel" Multiplicity="1" />
+    <End Role="Audit" Type="AuditModel.Store.Entity_Audit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AuditLevel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Audit">
+        <PropertyRef Name="AuditLevel_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntityTag_Entity">
+    <End Role="Entity" Type="AuditModel.Store.Entity" Multiplicity="1" />
+    <End Role="EntityTag" Type="AuditModel.Store.EntityTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EntityTag">
+        <PropertyRef Name="Entity_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntityTag_Tag">
+    <End Role="EntityTag" Type="AuditModel.Store.EntityTag" Multiplicity="*" />
+    <End Role="Tag" Type="AuditModel.Store.Tag" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EntityTag">
+        <PropertyRef Name="Tag_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Audit_inherits_Entity">
+    <End Role="Entity" Type="AuditModel.Store.Entity" Multiplicity="1" />
+    <End Role="Audit" Type="AuditModel.Store.Entity_Audit" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Entity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Audit">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BinaryAttribute_inherits_Attribute">
+    <End Role="Attribute" Type="AuditModel.Store.Attribute" Multiplicity="1" />
+    <End Role="BinaryAttribute" Type="AuditModel.Store.Attribute_BinaryAttribute" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Attribute">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BinaryAttribute">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileAttribute_inherits_BinaryAttribute">
+    <End Role="BinaryAttribute" Type="AuditModel.Store.Attribute_BinaryAttribute" Multiplicity="1" />
+    <End Role="FileAttribute" Type="AuditModel.Store.Attribute_FileAttribute" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="BinaryAttribute">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileAttribute">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StringAttribute_inherits_Attribute">
+    <End Role="Attribute" Type="AuditModel.Store.Attribute" Multiplicity="1" />
+    <End Role="StringAttribute" Type="AuditModel.Store.Attribute_StringAttribute" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Attribute">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StringAttribute">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

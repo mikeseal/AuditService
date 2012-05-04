@@ -1,0 +1,5 @@
+﻿<#
+	string DatabaseInstance = ".\\sql2008";
+	
+#>
+<#@ include file="web.tt" #>

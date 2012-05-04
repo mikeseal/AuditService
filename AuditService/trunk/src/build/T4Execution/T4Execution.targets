@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="ExecuteT4Templates">
+        <ItemGroup>
+            <T4Templates Include=".\**\*.$(Configuration).tt" />
+        </ItemGroup>
+        <Message Text="Starting T4 Execution for $(Configuration)" />
+        <Exec Condition=" '@(T4Templates)' != '' "
+              WorkingDirectory="$(MSBuildExtensionsPath32)\..\Common Files\microsoft shared\TextTemplating\10.0\"
+              Command="TextTransform &quot;%(T4Templates.FullPath)&quot;" />
+    </Target>
+</Project>

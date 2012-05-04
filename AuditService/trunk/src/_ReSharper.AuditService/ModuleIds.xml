@@ -1,0 +1,5 @@
+<Modules>
+  <Module PersistentId="160913E9-68CB-460D-B68F-B8E2526853A4" ModuleId="AuditService" />
+  <Module PersistentId="3925397E-3480-4DD8-A04E-CEC12BBE854B" ModuleId="BusinessRules" />
+  <Module PersistentId="D9902CCA-3836-4355-92A4-358C079B1083" ModuleId="AuditDomainInterface" />
+</Modules>

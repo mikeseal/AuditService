@@ -1,0 +1,4 @@
+﻿<#
+	string DatabaseInstance = "DEBUGMIKEBEAR\\SQL2008";
+#>
+<#@ include file="web.tt" #>
