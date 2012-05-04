@@ -13,21 +13,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService", "AuditService\AuditService\AuditService.csproj", "{160913E9-68CB-460D-B68F-B8E2526853A4}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://hv-sb-tfserver:8080/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AuditService\\AuditDomainInterface\\AuditDomainInterface.csproj
-		SccProjectName1 = AuditService/AuditDomainInterface
-		SccLocalPath1 = AuditService\\AuditDomainInterface
-		SccProjectUniqueName2 = AuditService\\AuditService\\AuditService.csproj
-		SccProjectName2 = AuditService/AuditService
-		SccLocalPath2 = AuditService\\AuditService
-		SccProjectUniqueName3 = AuditService\\BusinessRules\\BusinessRules.csproj
-		SccProjectName3 = AuditService/BusinessRules
-		SccLocalPath3 = AuditService\\BusinessRules
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		QA|Any CPU = QA|Any CPU

@@ -22,8 +22,11 @@ namespace Silverbear.Enterprise.Audit
         [WebInvoke(UriTemplate = "", Method = "POST")]
         public int Create(Stream NewAuditRecord)
         {
+
             var ser = new DataContractSerializer(typeof(AuditObject));
             var audit = (AuditObject)ser.ReadObject(NewAuditRecord);
+
+
 
             try
             {
